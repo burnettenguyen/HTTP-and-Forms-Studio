@@ -4,19 +4,41 @@
 	<meta charset="utf-8">
 
 	<script>
-		function setSearchEngine() {
+ 
+		let actions = {
+			"google": "https://www.google.com/",
+			"duckDuckGo": "https://duckduckgo.com/",
+			"bing": "https://www.bing.com/search",
+			"ask": "https://www.ask.com/web"
+		};
+
+		function setSearchEngine(form) {
 			let search = document.querySelector("input[name=engine]:checked");
-			let actions = {
-			   "google": "https://www.google.com/"
-				 "duckDuckGo": "https://duckduckgo.com/"
-				 "bing": "https://www.bing.com/search"
-				 "ask": "https://www.ask.com/web"
+			if (!search) {
+				alert("You must select a search engine.");
+				return false
 			};
+
+			search = search.value;
+
+			form.setAttribute("action", actions[search])
+			form.submit();
 		};
 
     window.addEventListener("load", function() {
         let form = document.querySelector("form");
-				form.addEventListener("submit", setSearchEngine);
+				form.addEventListener("submit", function(event) {
+				// 	let searchValue = document.querySelector(input[name=q]);
+				// 	let userInput = document.querySelector(input[name=engine]);
+				// 	if (!userInput.value) {
+				// 		alert("All fields are required!");
+
+				// 		event.preventDefault();
+				// 	};
+
+					event.preventDefault();
+					return setSearchEngine(form);
+				});
     });
 
 	</script>
@@ -25,8 +47,8 @@
 
 <body>
 
-	<form id="searchForm" method="GET">
-			<input type="text" name="q"/>
+	<form id="searchForm" method="GET" >
+			<input type="text" name="q" required/>
 
 		<label>
 			<input type="radio" name="engine" value="google"/>
@@ -48,7 +70,7 @@
 			Ask
 		</label>
 
-		<button type="submit" value="Go!">
+		<button value="Go!">
 			Go!
 		</button>
 
